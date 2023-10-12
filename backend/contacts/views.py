@@ -10,5 +10,4 @@ class ContactCreateView(APIView):
     def post(self, request. format=None):
         data = self.request.data
 
-        try:
-            send_mail()
+        pass
