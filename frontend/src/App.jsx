@@ -11,24 +11,29 @@ import Login from './containers/Login';
 import SignUp from './containers/Signup';
 import Layout from './hoc/Layout';
 import NotFound from './components/NotFound';
+
+import { Provider } from 'react-redux';
+import store from './store';
 import './sass/main.scss'
 
 const App = () => {
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/about' element={<About />} />
-          <Route exact path='/contact' element={<Contact />} />
-          <Route exact path='/Listings' element={<Listings />} />
-          <Route exact path='/Listings/:id' element={<ListingDetail />} />
-          <Route exact path='/Login' element={<Login />} />
-          <Route exact path='/signup' element={<SignUp />} />
-          <Route path='*' element={<NotFound />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Layout>
+          <Routes>
+            <Route exact path='/' element={<Home />} />
+            <Route exact path='/about' element={<About />} />
+            <Route exact path='/contact' element={<Contact />} />
+            <Route exact path='/Listings' element={<Listings />} />
+            <Route exact path='/Listings/:id' element={<ListingDetail />} />
+            <Route exact path='/Login' element={<Login />} />
+            <Route exact path='/signup' element={<SignUp />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </Layout>
+      </Router>
+    </Provider>
   );
 };
 
