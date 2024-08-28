@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/token/', token_obtain_pair, name='token_obtain_pair'),
     path('api/token/reresh/', token_refresh, name='token_refresh'),
     path('api/accounts/', include('accounts.urls')),
+    path('api/realtors/', include('realtors.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
