@@ -5,7 +5,7 @@ import { setAlert } from "../../alert/alertSlice";
 
 const signupThunk = createAsyncThunk(
   "auth/signup",
-  async (credentials, { dispatch }) => {
+  async (credentials, { dispatch, rejectWithValue }) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -18,9 +18,12 @@ const signupThunk = createAsyncThunk(
       const response = await api.post("/api/accounts/signup", body, config);
       dispatch(signupSucess(response.data));
       dispatch(signin({ email, password }));
+
+      return response.data;
     } catch (err) {
       dispatch(signupFail());
       dispatch(setAlert({ msg: "Error Authenticating", alertType: "error" }));
+      return rejectWithValue(err.message);
     }
   }
 );

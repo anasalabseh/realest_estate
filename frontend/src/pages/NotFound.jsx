@@ -4,11 +4,9 @@ const NotFound = () => {
   return (
     <>
       <Navbar />
-      <div className="mt-64">
-        <h1 className="text-8xl text-center opacity-50 font-medium mb-16">
-          404 Not Found
-        </h1>
-        <p className="text-3xl text-center mb-56">
+      <div className="notfound">
+        <h1 className="notfound__heading">404 Not Found</h1>
+        <p className="notfound__paragraph">
           the link you requested does not exist in our website
         </p>
       </div>

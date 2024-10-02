@@ -5,7 +5,7 @@ import { setAlert } from "../../alert/alertSlice";
 
 const signinThunk = createAsyncThunk(
   "auth/signin",
-  async (credentials, { dispatch }) => {
+  async (credentials, { dispatch, rejectWithValue }) => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -20,9 +20,11 @@ const signinThunk = createAsyncThunk(
       dispatch(
         setAlert({ msg: "Authenticated successfully", alertType: "success" })
       );
+      return response.data;
     } catch (err) {
       dispatch(loginFail());
       dispatch(setAlert({ msg: "Error Authenticating", alertType: "error" }));
+      return rejectWithValue(err.message);
     }
   }
 );

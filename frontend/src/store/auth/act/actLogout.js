@@ -3,8 +3,12 @@ import { logoutDone } from "../authSlice";
 import { setAlert } from "../../alert/alertSlice";
 
 const logoutThunk = createAsyncThunk("auth/logout", async (_, { dispatch }) => {
-  dispatch(setAlert({ msg: "Logout successful", alertType: "success" }));
-  dispatch(logoutDone());
+  return new Promise((resolve) => {
+    const alert = { msg: "Logout successful", alertType: "success" };
+    dispatch(setAlert(alert));
+    dispatch(logoutDone());
+    resolve(alert.msg);
+  });
 });
 
 export default logoutThunk;
