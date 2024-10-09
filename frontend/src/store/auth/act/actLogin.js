@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../../services/axios";
-import { loginSuccess, loginFail } from "../authSlice";
 import { setAlert } from "../../alert/alertSlice";
+import { setLoading } from "../authSlice";
 
-const signinThunk = createAsyncThunk(
-  "auth/signin",
+const loginThunk = createAsyncThunk(
+  "auth/login",
   async (credentials, { dispatch, rejectWithValue }) => {
     const config = {
       headers: {
@@ -15,18 +15,17 @@ const signinThunk = createAsyncThunk(
     const password = credentials.password;
     const body = JSON.stringify({ email, password });
     try {
-      const response = await api.post("/api/token", body, config);
-      dispatch(loginSuccess(response.data));
+      const response = await api.post("/api/token/", body, config);
       dispatch(
         setAlert({ msg: "Authenticated successfully", alertType: "success" })
       );
       return response.data;
     } catch (err) {
-      dispatch(loginFail());
+      dispatch(setLoading(false));
       dispatch(setAlert({ msg: "Error Authenticating", alertType: "error" }));
-      return rejectWithValue(err.message);
+      return rejectWithValue(err.response?.data?.message || err.message);
     }
   }
 );
 
-export default signinThunk;
+export default loginThunk;

@@ -1,7 +1,41 @@
 import { NavLink, Link } from "react-router-dom";
-import NavBarlink from "../common/NavBarlink";
 
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+import Alert from "../common/Alert";
+
+import { useSelector, useDispatch } from "react-redux";
+
+import {
+  isAuthenticatedSelector,
+  isLoadingSelector,
+  logout,
+} from "../../store/auth/authSlice";
+
+const Navbar = () => {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector(isAuthenticatedSelector);
+  const loading = useSelector(isLoadingSelector);
+
+  const logoutHandler = () => {
+    dispatch(logout);
+  };
+
+  const authLinks = (
+    <a className="navbar__top__auth__link" onClick={logoutHandler} href="#">
+      Logout
+    </a>
+  );
+
+  const guestLinks = (
+    <>
+      <Link className="navbar__top__auth__link" to="/login">
+        Login
+      </Link>
+      <Link className="navbar__top__auth__link" to="/signup">
+        Sign Up
+      </Link>
+    </>
+  );
+
   return (
     <>
       <nav className="navbar">
@@ -11,24 +45,34 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
               Realest Estate
             </Link>
           </div>
-          <div className=""></div>
-          <div />
-          <div className="flex gap-x-2 space-x-4">
-            <NavBarlink destination="/">Home</NavBarlink>
-            <NavBarlink destination="/Listings">Listings</NavBarlink>
-            <NavBarlink destination="/about">About</NavBarlink>
-            <NavBarlink destination="/contact">Contact</NavBarlink>
-          </div>
-          <div className="flex justify-between gap-x-4 hover:text-colo">
-            <NavLink to="/login" className="text-white">
-              Login
-            </NavLink>
-            <NavLink to="/signup" className="text-white">
-              Sign Up
-            </NavLink>
+          <div className="navbar__top__auth">
+            {!loading && <>{isAuthenticated ? authLinks : guestLinks}</>}
           </div>
         </div>
+        <div className="navbar__bottom">
+          <li className="navbar__bottom__item">
+            <NavLink to="/" className="navbar__bottom__item__link">
+              Home
+            </NavLink>
+          </li>
+          <li className="navbar__bottom__item">
+            <NavLink to="/Listings" className="navbar__bottom__item__link">
+              Listings
+            </NavLink>
+          </li>
+          <li className="navbar__bottom__item">
+            <NavLink to="/about" className="navbar__bottom__item__link">
+              About
+            </NavLink>
+          </li>
+          <li className="navbar__bottom__item">
+            <NavLink to="/contact" className="navbar__bottom__item__link">
+              Contact
+            </NavLink>
+          </li>
+        </div>
       </nav>
+      <Alert />
     </>
   );
 };

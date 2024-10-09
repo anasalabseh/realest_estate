@@ -5,7 +5,7 @@ import Contact from "../pages/Contact";
 import Home from "../pages/Home";
 import ListingDetail from "../pages/ListingDetail";
 import Listings from "../pages/Listings";
-import Signin from "../pages/Signin";
+import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import NotFound from "../pages/NotFound";
 
@@ -41,8 +41,8 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "signin",
-        element: <Signin />,
+        path: "login",
+        element: <Login />,
       },
       {
         path: "signup",
