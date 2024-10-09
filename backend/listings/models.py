@@ -2,11 +2,11 @@ from django.db import models
 from django.utils.timezone import now
 from realtors.models import Realtor
 
-def liting_main_image_path(instance, filename):
+def listing_main_image_path(instance, filename):
     return f"photos/listing_{instance.title}/main/{filename}"
 
 def listing_gallery_image_path(instance, filename):
-    return f"photos/listing_{instance.title}/%Y/%m/%d/{filename}"
+    return f"photos/listing_{instance.listing.title}/%Y/%m/%d/{filename}"
 
 class Listing(models.Model):
     class SaleType(models.TextChoices):
@@ -33,7 +33,7 @@ class Listing(models.Model):
     home_type = models.CharField(max_length=20, choices=HomeType.choices, default=HomeType.HOUSE)
     sqft = models.IntegerField()
     open_house = models.BooleanField(default=False)
-    photo_main = models.ImageField(upload_to=liting_main_image_path)
+    photo_main = models.ImageField(upload_to=listing_main_image_path)
     is_published = models.BooleanField(default=True)
     list_date = models.DateTimeField(default=now, blank=True)
 
@@ -41,6 +41,6 @@ class Listing(models.Model):
         return self.title
 
 
-class LitingImage(models.Model):
+class ListingImage(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     image = models.ImageField(upload_to=listing_gallery_image_path)

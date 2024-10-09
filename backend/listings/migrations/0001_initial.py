@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('home_type', models.CharField(choices=[('House', 'House'), ('Condo', 'Condo'), ('Townhouse', 'Townhouse')], default='House', max_length=20)),
                 ('sqft', models.IntegerField()),
                 ('open_house', models.BooleanField(default=False)),
-                ('photo_main', models.ImageField(upload_to=listings.models.liting_main_image_path)),
+                ('photo_main', models.ImageField(upload_to=listings.models.listing_main_image_path)),
                 ('is_published', models.BooleanField(default=True)),
                 ('list_date', models.DateTimeField(blank=True, default=django.utils.timezone.now)),
                 ('realtor', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='realtors.realtor')),

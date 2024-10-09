@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework import permissions
-from .models import Listing, LitingImage
+from .models import Listing, ListingImage
 from .serializers import ListingDetailSerializer, ListingSerializer
 from datetime import datetime, timezone, timedelta
 
@@ -27,7 +27,7 @@ class SearchView(APIView):
         data = self.request.data
 
         sale_type = data['sale_type']
-        queryset = queryset.filter(sale_type__iexat=sale_type)
+        queryset = queryset.filter(sale_type__iexact=sale_type)
         price = data['price']
 
         #converting the search query to integer prices
@@ -68,7 +68,7 @@ class SearchView(APIView):
         elif bedrooms == '5+':
             bedrooms = 5
 
-        queryset = queryset.filter(bedrooms_gte=bedrooms)
+        queryset = queryset.filter(bedrooms__gte=bedrooms)
 
         home_type = data['home_type']
         queryset = queryset.filter(home_type__iexact=home_type)
@@ -139,7 +139,7 @@ class SearchView(APIView):
         #counting the number of images in every listing object to get the ones that match the search condition
         for listing in queryset:
             #getting the images of each listing
-            images_queryset = LitingImage.objects.filter(listing=listing)
+            images_queryset = ListingImage.objects.filter(listing=listing)
             count = len(images_queryset)
             if count < has_photos:
                 slug = listing.slug
@@ -149,7 +149,7 @@ class SearchView(APIView):
         queryset = queryset.filter(open_house__iexact=open_house)
 
         keywords = data['keywords']
-        queryset = queryset.filter(description__icontain=keywords)
+        queryset = queryset.filter(description__icontains=keywords)
 
         serializer = ListingSerializer(queryset, many=True)
 
