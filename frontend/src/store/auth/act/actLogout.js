@@ -1,11 +1,8 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-
 import { setAlert } from "../../alert/alertSlice";
+import { setIsAuthenticated } from "../authSlice";
 
-const logoutThunk = createAsyncThunk("auth/logout", async (_, { dispatch }) => {
+export const logout = (dispatch) => {
+  dispatch(setIsAuthenticated(false));
   const alert = { msg: "Logout successful", alertType: "success" };
   dispatch(setAlert(alert));
-  return alert.msg;
-});
-
-export default logoutThunk;
+};

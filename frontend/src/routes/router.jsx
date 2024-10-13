@@ -2,8 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../template/Layout";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
-import Home from "../pages/Home";
-import ListingDetail from "../pages/ListingDetail";
+import Home, { action as searchListingsAction } from "../pages/Home";
+import ListingDetail, {
+  loader as ListingDetailLoader,
+} from "../pages/ListingDetail";
 import Listings from "../pages/Listings";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
@@ -18,6 +20,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+        action: searchListingsAction,
       },
       {
         path: "about",
@@ -35,8 +38,9 @@ const router = createBrowserRouter([
             element: <Listings />,
           },
           {
-            path: ":listingId",
+            path: ":slug",
             element: <ListingDetail />,
+            loader: ListingDetailLoader,
           },
         ],
       },

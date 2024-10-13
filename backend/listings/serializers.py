@@ -12,11 +12,11 @@ class ListingImageSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = ListingImage
-        fields = '__all__'
+        fields = ['image']
 
 class ListingDetailSerializer(serializers.ModelSerializer):
     images = ListingImageSerializer(many=True, read_only=True)
     class Meta:
         model = Listing
-        fields = '__all__'
+        fields = ['realtor', 'slug', 'title', 'address', 'city', 'state', 'zipcode', 'description', 'sale_type', 'price', 'bedrooms', 'bathrooms', 'home_type', 'sqft', 'open_house', 'photo_main', 'list_date', 'images']
         lookup_field = 'slug'

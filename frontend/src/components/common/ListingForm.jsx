@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import api from "../../services/axios";
 import { Oval } from "react-loader-spinner";
+import { Form, useNavigation } from "react-router-dom";
 
-const ListingForm = ({ setListings }) => {
+const ListingForm = () => {
   const [formData, setFormData] = useState({
     sale_type: "For sale",
     price: "$0+",
@@ -11,10 +11,14 @@ const ListingForm = ({ setListings }) => {
     bathrooms: "0+",
     sqft: "1000+",
     days_listed: "1 or less",
+    open_house: false,
     has_photos: "1+",
-    open_house: "false",
     keywords: "",
   });
+
+  const navigation = useNavigation();
+  const loading = navigation.state === "submitting";
+  console.log(formData.open_house);
 
   const {
     sale_type,
@@ -24,52 +28,25 @@ const ListingForm = ({ setListings }) => {
     bathrooms,
     sqft,
     days_listed,
-    has_photos,
     open_house,
+    has_photos,
     keywords,
   } = formData;
 
-  const [loading, setLoading] = useState(false);
-
   const handleOptionChange = (event) => {
     setFormData((prevForm) => {
-      return { ...prevForm, [event.target.name]: event.target.value };
+      if (event.target.name === "open_house") {
+        return { ...prevForm, open_house: !prevForm.open_house };
+      }
+      return {
+        ...prevForm,
+        [event.target.name]: event.target.value,
+      };
     });
   };
 
-  const handleFormSubmit = (event) => {
-    console.log("entered handleformsubmi");
-    event.preventDefault();
-
-    setLoading(true);
-    api
-      .post("/api/listings/search", {
-        sale_type,
-        price,
-        bedrooms,
-        home_type,
-        bathrooms,
-        sqft,
-        days_listed,
-        has_photos,
-        open_house,
-        keywords,
-      })
-      .then((res) => {
-        setLoading(false);
-        setListings(res.data);
-        window.scrollTo(0, 0);
-        console.log(res);
-      })
-      .catch((err) => {
-        setLoading(false);
-        window.scrollTo(0, 0);
-        console.log(err.message);
-      });
-  };
-
   return (
-    <form className="listingform" onSubmit={(e) => handleFormSubmit(e)}>
+    <Form method="POST" className="listingform">
       <div className="row">
         <div className="col-1-of-6">
           <div className="listingform__section">
@@ -246,6 +223,7 @@ const ListingForm = ({ setListings }) => {
               className="listingform__checkbox"
               name="open_house"
               onChange={(e) => handleOptionChange(e)}
+              checked={open_house}
               value={open_house}
             />
           </div>
@@ -263,7 +241,7 @@ const ListingForm = ({ setListings }) => {
           )}
         </div>
       </div>
-    </form>
+    </Form>
   );
 };
 

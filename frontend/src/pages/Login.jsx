@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/auth/authSlice";
 import { isAuthenticatedSelector } from "../store/auth/authSlice";
 import { Helmet } from "react-helmet-async";
 
 const Signin = () => {
+  const navigate = useNavigate();
+
   const isAuthenticated = useSelector(isAuthenticatedSelector);
 
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const Signin = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     dispatch(login({ email, password }));
+    navigate("/");
   };
 
   if (isAuthenticated) return redirect("/");

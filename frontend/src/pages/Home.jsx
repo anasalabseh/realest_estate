@@ -3,12 +3,18 @@ import ListingForm from "../components/common/ListingForm";
 import Listings from "../components/common/Listings";
 import Pagination from "../components/common/Pagination";
 import { Helmet } from "react-helmet-async";
+import api from "../services/axios";
+import { json, useActionData } from "react-router-dom";
 
 const Home = () => {
-  const [listings, setListings] = useState([]);
+  const searchResults = useActionData();
   const [currentPage, setCurrentPage] = useState(1);
   const [listingsPerPage, setListingsPerPage] = useState(3);
   const [active, setActive] = useState(1);
+  // console.log("first", searchResults);
+
+  const listings = searchResults ? searchResults : [];
+  // console.log("second", searchResults);
 
   const indexOfLastListing = currentPage * listingsPerPage;
   const indexOfFirstListing = indexOfLastListing - listingsPerPage;
@@ -43,7 +49,7 @@ const Home = () => {
         <meta name="description" content="Realest Estate Home Page" />
       </Helmet>
       <section className="home__form">
-        <ListingForm setListings={setListings} />
+        <ListingForm />
       </section>
       <section className="home__listings">
         <Listings listings={currentListings} />
@@ -68,3 +74,28 @@ const Home = () => {
 };
 
 export default Home;
+
+export const action = async ({ request, params }) => {
+  const form = await request.formData();
+  const searchData = {
+    sale_type: form.get("sale_type"),
+    price: form.get("price"),
+    bedrooms: form.get("bedrooms"),
+    home_type: form.get("home_type"),
+    bathrooms: form.get("bathrooms"),
+    sqft: form.get("sqft"),
+    days_listed: form.get("days_listed"),
+    has_photos: form.get("has_photos"),
+    open_house: form.get("open_house"),
+    keywords: form.get("keywords"),
+  };
+  console.log("searchData", searchData);
+
+  const response = await api.post("/api/listings/search/", searchData);
+  console.log(response);
+  if (response.status >= 300 || response.status < 200) {
+    throw json({ error: "error submitting the form" });
+  }
+
+  return response.data;
+};

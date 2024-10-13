@@ -42,5 +42,5 @@ class Listing(models.Model):
 
 
 class ListingImage(models.Model):
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, related_name='images',  on_delete=models.CASCADE)
     image = models.ImageField(upload_to=listing_gallery_image_path)

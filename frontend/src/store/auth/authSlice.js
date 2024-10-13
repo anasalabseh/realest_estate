@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import loginThunk from "./act/actLogin";
 import signupThunk from "./act/actSignup";
-import logoutThunk from "./act/actLogout";
+import { logout as logoutThunk } from "./act/actLogout";
 
 const initialState = {
   token: localStorage.getItem("token"),
@@ -26,15 +26,15 @@ const authSlice = createSlice({
     setLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    setIsAuthenticated: (state, action) => {
+      localStorage.removeItem("token");
+      state.token = null;
+      state.isAuthenticated = action.payload;
+      state.isLoading = false;
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(logout.fulfilled, (state) => {
-        localStorage.removeItem("token");
-        state.token = null;
-        state.isAuthenticated = false;
-        state.isLoading = false;
-      })
       .addCase(login.fulfilled, (state, action) => {
         localStorage.setItem("token", action.payload.access);
         state.isAuthenticated = true;
@@ -60,7 +60,8 @@ const authSlice = createSlice({
 export const login = loginThunk;
 export const signup = signupThunk;
 export const logout = logoutThunk;
-export const { signupSuccess, signupFail, setLoading } = authSlice.actions;
+export const { signupSuccess, signupFail, setLoading, setIsAuthenticated } =
+  authSlice.actions;
 
 //Reducer
 export default authSlice.reducer;
