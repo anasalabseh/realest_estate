@@ -10,7 +10,7 @@ const ListingForm = () => {
     home_type: "House",
     bathrooms: "0+",
     sqft: "1000+",
-    days_listed: "1 or less",
+    days_listed: "Any",
     open_house: false,
     has_photos: "1+",
     keywords: "",
@@ -18,8 +18,6 @@ const ListingForm = () => {
 
   const navigation = useNavigation();
   const loading = navigation.state === "submitting";
-  console.log(formData.open_house);
-
   const {
     sale_type,
     price,
@@ -115,12 +113,12 @@ const ListingForm = () => {
               onChange={(e) => handleOptionChange(e)}
               value={days_listed}
             >
+              <option>Any</option>
               <option>1 or less</option>
               <option>2 or less</option>
               <option>5 or less</option>
               <option>10 or less</option>
               <option>20 or less</option>
-              <option>Any</option>
             </select>
           </div>
         </div>

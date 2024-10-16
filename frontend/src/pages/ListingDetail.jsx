@@ -9,28 +9,28 @@ const ListingDetail = () => {
   const response = useLoaderData();
   const listing = response.listing;
   const realtor = response.realtor;
+  console.log(realtor);
 
   const price = numberWithCommas(listing.price);
 
   const displayInteriorImages = () => {
     //getting an array of 3 columns to construct a design consists of 3 images in each row of the UI
     const images = conver1D2D(listing.images, 3);
+    console.log("images", images);
 
     return images.map((row, rowIndex) => {
       return (
         <div className="row" key={rowIndex}>
           {row.map((image, columnIndex) => {
             return (
-              <div className="col-1-3" key={columnIndex}>
-                (
+              <div className="col-1-of-3" key={columnIndex}>
                 <div className="listingdetail__display">
                   <img
-                    src={image}
+                    src={image.image}
                     alt=""
                     className="listingdetail__display__image"
                   />
                 </div>
-                )
               </div>
             );
           })}
@@ -132,14 +132,16 @@ export default ListingDetail;
 
 export const loader = async ({ _, params }) => {
   const slug = params.slug;
-  console.log("slug", slug);
+
   const config = {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
   };
 
   //first retrieving the listing
-  const listingResponse = await api.get(`/api/listings/${slug}/`, config);
-  console.log(listingResponse.data);
+  const listingResponse = await api.get(`/api/listings/${slug}/`);
+
   const realtorId = listingResponse.data.realtor;
 
   //then retrieve the listing's owner

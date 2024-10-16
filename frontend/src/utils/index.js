@@ -5,7 +5,7 @@ export const numberWithCommas = (x) => {
 export const conver1D2D = (original, n) => {
   // If the length of the original array is not equal to the product of dimensions m and n
   // Then it's not possible to construct a 2D array of m x n, return empty array
-  if (m * n !== original.length) {
+  if (n > original.length) {
     return [];
   }
 

@@ -11,10 +11,8 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [listingsPerPage, setListingsPerPage] = useState(3);
   const [active, setActive] = useState(1);
-  // console.log("first", searchResults);
 
   const listings = searchResults ? searchResults : [];
-  // console.log("second", searchResults);
 
   const indexOfLastListing = currentPage * listingsPerPage;
   const indexOfFirstListing = indexOfLastListing - listingsPerPage;
@@ -86,13 +84,11 @@ export const action = async ({ request, params }) => {
     sqft: form.get("sqft"),
     days_listed: form.get("days_listed"),
     has_photos: form.get("has_photos"),
-    open_house: form.get("open_house"),
+    open_house: form.get("open_house") !== null ? "true" : "false",
     keywords: form.get("keywords"),
   };
-  console.log("searchData", searchData);
 
   const response = await api.post("/api/listings/search/", searchData);
-  console.log(response);
   if (response.status >= 300 || response.status < 200) {
     throw json({ error: "error submitting the form" });
   }

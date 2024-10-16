@@ -6,10 +6,11 @@ import Home, { action as searchListingsAction } from "../pages/Home";
 import ListingDetail, {
   loader as ListingDetailLoader,
 } from "../pages/ListingDetail";
-import Listings from "../pages/Listings";
+import Listings, { loader as ListingsPageLoader } from "../pages/Listings";
 import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import NotFound from "../pages/NotFound";
+import PrivateRoute from "../components/common/privateRoute";
 
 const router = createBrowserRouter([
   {
@@ -36,10 +37,11 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <Listings />,
+            loader: ListingsPageLoader,
           },
           {
             path: ":slug",
-            element: <ListingDetail />,
+            element: <PrivateRoute element={ListingDetail} />,
             loader: ListingDetailLoader,
           },
         ],

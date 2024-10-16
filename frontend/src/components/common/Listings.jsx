@@ -6,10 +6,10 @@ const Listings = ({ listings }) => {
     let listingsOnPage = [];
     let result = [];
 
-    listings.map((listing) => {
+    listings.map((listing, index) => {
       return listingsOnPage.push(
         <Card
-          key={listing.slug}
+          key={index}
           title={listing.title}
           address={listing.address}
           city={listing.city}

@@ -37,7 +37,7 @@ const Card = ({
           <p className="card__sqft">{sqft}</p>
         </div>
       </div>
-      <Link className="card__link" to={`/litings/${slug}`}>
+      <Link className="card__link" to={`/listings/${slug}`}>
         View Listing
       </Link>
     </div>
