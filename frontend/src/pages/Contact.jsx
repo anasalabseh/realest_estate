@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import api from "../services/axios";
 import { Oval } from "react-loader-spinner";
-import { addAlert, setAlert } from "../store/alert/alertSlice";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigation, useActionData } from "react-router-dom";
+import { addAlert } from "../store/alert/alertSlice";
+import { useDispatch } from "react-redux";
+import { useNavigation, useActionData, Form } from "react-router-dom";
 
 const Contact = () => {
   const dispatch = useDispatch();
@@ -20,9 +20,9 @@ const Contact = () => {
   const { name, email, subject, message } = formData;
   const loading = navigation.state === "submitting";
 
-  if (alert.status === "error") {
+  if (alert?.status === "error") {
     dispatch(addAlert({ message: alert.message, alertType: alert.status }));
-  } else if (alert.status === "success") {
+  } else if (alert?.status === "success") {
     dispatch(addAlert({ message: alert.message, alertType: alert.status }));
   }
   useEffect(() => {
@@ -59,7 +59,7 @@ const Contact = () => {
         <input
           type="email"
           className="contact__form__input"
-          name="name"
+          name="email"
           placeholder="example@gmail.com"
           onChange={(event) => onChange(event)}
           value={email}
@@ -81,8 +81,8 @@ const Contact = () => {
           Message
         </label>
         <textarea
-          name=""
-          id=""
+          name="message"
+          id="message"
           className="contact__form__textarea"
           cols="8"
           rows="18"
@@ -106,10 +106,12 @@ const Contact = () => {
 
 export default Contact;
 
-const action = async ({ request }) => {
+export const action = async ({ request }) => {
   try {
     const form = Object.fromEntries(await request.formData());
+    console.log(form);
     const response = api.post("/api/contacts/", { ...form });
+    console.log(response);
 
     return { message: "Message sent", status: "success" };
   } catch (error) {

@@ -26,45 +26,41 @@ const About = () => {
           <p className="about__about">{realtor.description}</p>
         </Fragment>
       );
-
-      for (let i = 0; i < realtors.length; i += 3) {
-        results.push(
-          <div className="row" key={i}>
-            <div className="col-1-of-3">{allRealtors[i]}</div>
-            <div className="col-1-of-3">{allRealtors[i + 1] || null}</div>
-            <div className="col-1-of-3">{allRealtors[i + 2] || null}</div>
-          </div>
-        );
-      }
-
-      results;
     });
 
-    const getTopSeller = () => {
-      let result = [];
+    for (let i = 0; i < realtors.length; i += 3) {
+      results.push(
+        <div className="row" key={i}>
+          <div className="col-1-of-3">{allRealtors[i]}</div>
+          <div className="col-1-of-3">{allRealtors[i + 1] || null}</div>
+          <div className="col-1-of-3">{allRealtors[i + 2] || null}</div>
+        </div>
+      );
+    }
 
-      topsellers.forEach((seller) => {
-        result.push(
-          <Fragment key={seller.id}>
-            <div className="about__display">
-              <img
-                src={seller.photo}
-                alt=""
-                className="about__display__imgae"
-              />
-            </div>
+    return results;
+  };
 
-            <h3 className="about__topseller">Top Seller</h3>
-            <p className="about__realtor">{seller.name}</p>
-            <p className="about__contact">{seller.phone}</p>
-            <p className="about__contact">{seller.email}</p>
-            <p className="about__about">{seller.description}</p>
-          </Fragment>
-        );
-      });
+  const getTopSeller = () => {
+    let result = [];
 
-      return result;
-    };
+    topsellers.forEach((seller) => {
+      result.push(
+        <Fragment key={seller.id}>
+          <div className="about__display">
+            <img src={seller.photo} alt="" className="about__display__imgae" />
+          </div>
+
+          <h3 className="about__topseller">Top Seller</h3>
+          <p className="about__realtor">{seller.name}</p>
+          <p className="about__contact">{seller.phone}</p>
+          <p className="about__contact">{seller.email}</p>
+          <p className="about__about">{seller.description}</p>
+        </Fragment>
+      );
+    });
+
+    return result;
   };
 
   return (
@@ -122,7 +118,7 @@ export default About;
 
 export const loader = async () => {
   try {
-    const res = await api.get("/api/realtors/topseller/");
+    let res = await api.get("/api/realtors/topseller/");
     const topsellers = res.data;
     res = api.get("/api/realtors");
     const realtors = res.data;

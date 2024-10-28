@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "../template/Layout";
-import About from "../pages/About";
-import Contact from "../pages/Contact";
+import About, { loader as AboutPageLoader } from "../pages/About";
+import Contact, { action as ContactFormAction } from "../pages/Contact";
 import Home, { action as searchListingsAction } from "../pages/Home";
 import ListingDetail, {
   loader as ListingDetailLoader,
@@ -26,10 +26,12 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+        loader: AboutPageLoader,
       },
       {
         path: "contact",
         element: <Contact />,
+        action: ContactFormAction,
       },
       {
         path: "listings",

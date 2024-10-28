@@ -9,14 +9,12 @@ const ListingDetail = () => {
   const response = useLoaderData();
   const listing = response.listing;
   const realtor = response.realtor;
-  console.log(realtor);
 
   const price = numberWithCommas(listing.price);
 
   const displayInteriorImages = () => {
     //getting an array of 3 columns to construct a design consists of 3 images in each row of the UI
     const images = conver1D2D(listing.images, 3);
-    console.log("images", images);
 
     return images.map((row, rowIndex) => {
       return (

@@ -43,7 +43,7 @@ const Listings = () => {
 
     for (let i = 0; i < listings.length; i += 3) {
       results.push(
-        <dev className="row" key={i}>
+        <dev className="row" key={`row-${i}`}>
           <div className="col-1-of-3">{display[i]}</div>
           <div className="col-1-of-3">
             {display[i + 1] ? display[i + 1] : null}
